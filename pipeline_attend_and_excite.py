@@ -494,7 +494,11 @@ class AttendAndExcitePipeline(StableDiffusionPipeline):
 
                 with torch.enable_grad():
 
-                    latents = latents.clone().detach().requires_grad_(True)
+                    latents_tmp = latents.clone().detach().requires_grad_(True)
+                    del latents
+                    latents = latents_tmp
+
+
 
                     # Forward pass of denoising with text conditioning
                     noise_pred_text = self.unet(latents, t,
